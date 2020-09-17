@@ -22,4 +22,8 @@ public enum ProductCode {
                 .findFirst()
                 .orElse(null);
     }
+
+    public boolean isCar() {
+        return this == CAR;
+    }
 }
