@@ -1,8 +1,8 @@
 package net.bjornoy.authentication.service;
 
+import net.bjornoy.authentication.config.security.annotation.CanWrite;
 import net.bjornoy.authentication.domain.Agreement;
 import net.bjornoy.authentication.domain.ProductCode;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -34,14 +34,13 @@ public class AgreementService {
         AGREEMENTS.add(person2);
     }
 
-    @PreAuthorize("isCar()")
+    @CanWrite
     public Optional<Agreement> getAgreement(String id) {
         return getAgreements().stream()
                 .filter(agreement -> agreement.getId().equals(id))
                 .findAny();
     }
 
-    @PreAuthorize("isCar()")
     public List<Agreement> getAgreements() {
         return AGREEMENTS;
     }

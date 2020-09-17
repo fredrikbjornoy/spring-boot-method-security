@@ -1,6 +1,6 @@
 package net.bjornoy.authentication.access;
 
-import net.bjornoy.authentication.domain.ProductCode;
+import net.bjornoy.authentication.config.security.domain.Role;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +10,11 @@ import java.util.Set;
 @Service
 public class AccessService {
 
-    private static final Set<Person> PERSONER = Set.of(new Person("1234", ProductCode.CAR), new Person("4321", ProductCode.PERSONAL));
+    private static final Set<Person> PERSONER = Set.of(
+            new Person("1234", Role.DAMAGE),
+            new Person("4321", Role.HR),
+            new Person("1337", Role.ADMINISTRATOR)
+    );
 
     public Person getPerson(String ssn) {
         return PERSONER.stream()
@@ -19,22 +23,21 @@ public class AccessService {
                 .orElseThrow(() -> new UsernameNotFoundException("user not found"));
     }
 
-
     public static class Person {
         final String ssn;
-        final ProductCode productCode;
+        final Role role;
 
-        public Person(String ssn, ProductCode productCode) {
+        public Person(String ssn, Role role) {
             this.ssn = ssn;
-            this.productCode = productCode;
+            this.role = role;
         }
 
         public String getSsn() {
             return ssn;
         }
 
-        public ProductCode getProductCode() {
-            return productCode;
+        public Role getRole() {
+            return role;
         }
 
         @Override
